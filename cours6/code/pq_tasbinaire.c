@@ -1,6 +1,6 @@
 #include "priority_queue.h"
 
-#define MAX_SIZE 50
+#define MAX_SIZE 1000
 
 struct PQ {
     int* heap;
@@ -48,12 +48,13 @@ int order_lineage_up(PQ_t pq, int child) {
 }
 
 // Fonction auxiliaire récursive pour maintenir la propriété du tas en descendant du parent vers ses deux enfants
-//PRE: Une file de priorité initialisée et non-vide et l'index de l'élément parent
+//PRE: Une file de priorité initialisée et non-vide et l'index de l'élément parent,
+    //counter est un big int non signé pour compter le nombre de manipulation dans le tri
 //POST: Maintient de la relation d'ordre en descendant du parent initial vers les "feuilles" du tas binaire
-void order_lineage_down(PQ_t pq, int parent) {
+void order_lineage_down(PQ_t pq, int parent,unsigned long long int* counter) {
     int left = 2 * parent + 1;
     int right = 2 * parent + 2;
-
+    (*counter)++;
     // Si pq <= 1 : stop
     if(pq->size<=1){
         return;
@@ -65,7 +66,7 @@ void order_lineage_down(PQ_t pq, int parent) {
     // Si pas de right et left prioritaire sur parent : order on left
     else if(right>=pq->size && pq->leq(pq->heap[left], pq->heap[parent])<0){
         swap(&pq->heap[parent], &pq->heap[left]);
-        order_lineage_down(pq, left);
+        order_lineage_down(pq, left,counter);
     }
     // Si pas de right et left non prioritaire sur parent :stop
     else if(right>=pq->size){
@@ -78,16 +79,16 @@ void order_lineage_down(PQ_t pq, int parent) {
     // Si left prioritaire : order on left
     else if (pq->leq(pq->heap[left], pq->heap[right])<=0) {
         swap(&pq->heap[parent], &pq->heap[left]);
-        order_lineage_down(pq, left);
+        order_lineage_down(pq, left,counter);
     }
     // Si right prioritaire : order on right
     else if (pq->leq(pq->heap[left], pq->heap[right])>0) {
         swap(&pq->heap[parent], &pq->heap[right]);
-        order_lineage_down(pq, right);
+        order_lineage_down(pq, right,counter);
     }
 }
 // Fonction pour ajouter un élément à la file de priorité
-PQ_t add_to_pq(PQ_t pq, int element) {
+PQ_t add_to_pq(PQ_t pq, int element,unsigned long long int* counter) {
     if (pq->size == pq->capacity) {
         printf("La file de priorité est pleine.\n");
         return pq;
@@ -101,12 +102,13 @@ PQ_t add_to_pq(PQ_t pq, int element) {
     int i=pq->size-1;
     while(i > 0){
         i=order_lineage_up(pq,i);
+        (*counter)++;
     }
     return pq;
 }
 
 // Fonction pour retirer l'élément le plus prioritaire
-PQ_t serve_pq(PQ_t pq) {
+PQ_t serve_pq(PQ_t pq,unsigned long long int* counter) {
     if (pq->size == 0) {
         printf("La file de priorité est vide.\n");
         return pq;
@@ -116,7 +118,7 @@ PQ_t serve_pq(PQ_t pq) {
     pq->size--;
 
     //Reorder parent lineage down if necessary (index is parent of added until index = 0 included)
-    order_lineage_down(pq,0);
+    order_lineage_down(pq,0,counter);
     return pq;
 }
 

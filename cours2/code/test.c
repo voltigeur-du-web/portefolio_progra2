@@ -24,10 +24,25 @@ void test_add_to_pq() {
 
 void test_serve_pq() {
     PQ_t pq = create_pq(leq);
-    pq = add_to_pq(pq, 10);
-    pq = add_to_pq(pq, 20);
-    pq = serve_pq(pq);
-    assert(peek_pq(pq) == 20);
+    // pq = add_to_pq(pq, 10);
+    // pq = add_to_pq(pq, 20);
+    // pq = serve_pq(pq);
+    // assert(peek_pq(pq) == 20);
+    int tab3_1[6] = {40, 93, 16, 10, 47, 17};
+    int new_tab[6];
+    //int tab3_1[5] = {40, 93, 16, 10, 47};
+    for(int i=0;i<6;i++){
+        add_to_pq(pq,tab3_1[i]);
+        display_pq(pq);
+    }
+    for(int i=0;i<6;i++){
+        printf("Value peek: %i\n",peek_pq(pq));
+        new_tab[i]=peek_pq(pq);
+        serve_pq(pq);
+        display_pq(pq);
+    }
+    assert(new_tab[0]==10);
+    assert(new_tab[5]==93);
     printf("test_serve passed\n");
 }
 

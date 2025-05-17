@@ -1,33 +1,21 @@
-void shift(int* tab, int j, int i){
-    int tmp = tab[i];
-    while(i>j){
-        tab[i] = tab[i-1];
-        i--;
-    }
-    tab[j] = tmp;
-}
+#include "tri.h"
 
-void insert_sorted(int* tab,int i){
-    int j = 0;
-    while(j<i){
-        if(tab[j]>tab[i]){
-            int tmp = tab[i];
-            shift(tab,j,i);
-            tab[j] = tmp;
+unsigned long long int sort(int* tab, int size){
+    unsigned long long int counter=0;
+    int i, j, moving;
+    // On commence au deuxième élément
+    for(i=1;i<size; i++){
+        moving=tab[i];
+        j=i-1;
+        // Retour vers les éléments précédent du tableau jusqu'à ce qu'on trouve un nombre plus petit ou égale
+        // Les valeurs plus élevées sont décalé à droite vers l'index de la valeur qu'on est en train de déplacer
+        while(j>=0 && tab[j]>moving) {
+            tab[j+1] = tab[j];
+            j--;
+            counter++;
         }
-        j++;
+        //Insertion de la valeur à insérer
+        tab[j+1] = moving;
     }
-}
-
-int tri_insertion(int* tab, int size) {
-    int nb_op = 0;
-    if(size>2 && tab[0]>tab[1]){
-        swap(tab,0,1);
-    }
-    int i=2;
-    while(i<size){
-        insert_sorted(tab,i);
-        i++;
-    }
-    return nb_op;
+    return counter;
 }

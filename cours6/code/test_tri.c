@@ -1,5 +1,6 @@
-#include "tri_gobelets.h"
-#include <assert.h>
+#include <stdio.h>
+#include <time.h>
+#include "tri.h"
 
 int tab1_0[4] = {78, 52, 3, 46};
 int tab1_1[4] = {74, 47, 51, 98};
@@ -127,26 +128,64 @@ int tab18_3[512] = {9, 76, 30, 5, 1, 29, 6, 28, 34, 53, 21, 43, 12, 17, 78, 43, 
 int tab18_4[512] = {48, 75, 41, 55, 33, 23, 10, 53, 69, 50, 14, 94, 3, 24, 96, 2, 92, 83, 51, 10, 13, 69, 58, 12, 56, 38, 42, 50, 55, 15, 15, 39, 83, 39, 6, 91, 64, 93, 18, 9, 54, 58, 91, 29, 52, 5, 62, 36, 30, 89, 16, 15, 74, 97, 9, 26, 12, 5, 27, 70, 28, 65, 11, 31, 39, 34, 15, 32, 52, 11, 78, 19, 9, 84, 20, 64, 49, 10, 48, 46, 31, 78, 39, 39, 57, 43, 34, 15, 90, 12, 11, 24, 100, 98, 14, 52, 59, 98, 71, 38, 93, 20, 89, 21, 47, 93, 91, 83, 29, 90, 79, 82, 33, 86, 65, 60, 35, 18, 16, 37, 42, 41, 95, 7, 12, 65, 49, 57, 11, 84, 2, 40, 72, 78, 58, 83, 31, 17, 98, 90, 28, 59, 83, 16, 60, 89, 52, 17, 42, 6, 84, 6, 46, 41, 19, 14, 45, 96, 96, 38, 41, 2, 24, 46, 89, 35, 43, 100, 50, 86, 39, 76, 58, 36, 70, 80, 19, 24, 93, 23, 62, 90, 75, 50, 73, 39, 79, 60, 98, 67, 76, 94, 17, 40, 17, 97, 78, 19, 90, 94, 74, 55, 97, 90, 13, 19, 17, 43, 0, 93, 59, 59, 82, 44, 8, 10, 12, 2, 81, 78, 13, 55, 54, 46, 82, 20, 2, 66, 3, 88, 98, 83, 24, 91, 23, 67, 82, 50, 6, 1, 90, 47, 91, 90, 49, 71, 29, 29, 9, 55, 95, 40, 20, 6, 81, 3, 19, 50, 45, 83, 80, 64, 2, 79, 69, 37, 85, 50, 60, 74, 3, 16, 34, 94, 80, 85, 46, 85, 7, 32, 42, 84, 63, 19, 70, 76, 24, 51, 25, 38, 41, 63, 23, 75, 61, 45, 87, 83, 78, 95, 79, 51, 76, 96, 12, 5, 63, 50, 82, 35, 31, 19, 78, 79, 62, 98, 74, 27, 53, 3, 23, 67, 90, 75, 92, 13, 63, 4, 4, 52, 42, 71, 90, 22, 82, 55, 16, 14, 59, 11, 43, 75, 79, 7, 98, 16, 73, 37, 82, 47, 6, 44, 74, 77, 93, 64, 85, 51, 25, 40, 37, 1, 27, 76, 24, 19, 13, 94, 78, 35, 52, 13, 34, 64, 67, 58, 79, 75, 45, 33, 64, 61, 56, 60, 44, 16, 66, 13, 5, 68, 99, 3, 66, 13, 60, 27, 39, 32, 64, 37, 43, 56, 10, 33, 76, 26, 23, 64, 97, 58, 62, 88, 34, 70, 67, 71, 82, 5, 88, 11, 44, 68, 86, 92, 15, 58, 88, 8, 87, 26, 92, 50, 52, 15, 36, 76, 14, 93, 73, 11, 28, 75, 65, 75, 66, 11, 59, 24, 79, 86, 16, 83, 58, 32, 58, 13, 22, 22, 82, 49, 71, 80, 67, 49, 27, 48, 11, 28, 55, 82, 53, 32, 72, 7, 27, 51, 86, 60, 23, 75, 7, 16, 20, 71, 63, 19, 17, 78, 71, 18, 2, 9, 64, 10, 10, 3, 70, 7, 33, 28, 48, 33, 45, 100, 87, 67, 75, 98, 79, 63, 82, 90};
 int* group18[5] = {tab18_0, tab18_1, tab18_2, tab18_3, tab18_4};
 
+// Fonction pour tester les performances du tri
+void test_sort(int** group_tab, int group_size, int size) {
+    unsigned long long int total = 0;
+    double total_duration = 0;
+
+    for (int i = 0; i < group_size; i++) {
+        // Copier le tableau 
+        int tab[size];
+        for (int j = 0; j < size; j++) {
+            tab[j] = group_tab[i][j];
+        }
+
+        // Appliquer le tri et mesurer le temps d'exécution
+        clock_t start = clock();
+        unsigned long long int count_permutations = sort(tab, size);
+        clock_t end = clock();
+
+        double duration = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+        total += count_permutations;
+        total_duration += duration;
+
+        //Afficher 
+        // printf("Tableau %d de taille %i:\n  ", i, size);
+        // for (int j = 0; j < size; j++) {
+        //     printf("%d ", tab[j]);
+        // }
+        // printf("\n-> Permutations: %llu\n", count_permutations);
+    }
+
+    // Calculer la moyenne des permutations
+    float mean_permutations = (float)total / group_size;
+    double mean_duration = (double)total_duration / group_size * 1000;
+    // printf("Moyenne des permutations pour le groupe de taille %i: %.2f\n",size, mean_permutations);
+    // printf("Moyenne du temps d'exécution (en ms) pour le groupe de taille %i: %lf\n\n",size, mean_duration);
+    printf("|%i|%.2f|%lf ms|\n",size,mean_permutations,mean_duration);
+}
+
 int main() {
-    int n;
-    int sum=0;
-    n=tri_gobelets(tab3_0, 4);
-    sum=sum+n;
-    printf("Le tableau tab3_0 est trié en %d permutations\n", n);
-    n=tri_gobelets(tab3_1, 4);
-    sum=sum+n;
-    printf("Le tableau tab3_1 est trié en %d permutations\n", n);
-    n=tri_gobelets(tab3_2, 4);
-    sum=sum+n;
-    printf("Le tableau tab3_2 est trié en %d permutations\n", n);
-    n=tri_gobelets(tab3_3, 4);
-    sum=sum+n;
-    printf("Le tableau tab3_4 est trié en %d permutations\n", n);
-
-    printf("La somme est de %i, la moyenne est de %d permutations\n", sum, sum/4);
-
-
-
-
-
+    printf("|Taille du tableau|N. permutations moyen|Temps exécution moyen|\n");
+    printf("|:----------------|--------------------:|--------------------:|\n");
+    test_sort(group1, 5, 4);
+    test_sort(group2, 5, 5);
+    test_sort(group3, 5, 6);
+    test_sort(group4, 5, 7);
+    test_sort(group5, 5, 8);
+    test_sort(group6, 5, 9);
+    test_sort(group7, 5, 10);
+    test_sort(group8, 5, 11);
+    test_sort(group9, 5, 12);
+    test_sort(group10, 5, 13);
+    test_sort(group11, 5, 14);
+    test_sort(group12, 5, 15);
+    test_sort(group13, 5, 16);
+    test_sort(group14, 5, 32);
+    test_sort(group15, 5, 64);
+    test_sort(group16, 5, 128);
+    test_sort(group17, 5, 256);
+    test_sort(group18, 5, 512);
+    return 0;
 }
