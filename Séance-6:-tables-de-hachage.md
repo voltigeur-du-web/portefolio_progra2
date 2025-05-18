@@ -1,50 +1,48 @@
-# Séance 6: tables de hachage
 
-- [Séance 6: tables de hachage](#séance-6-tables-de-hachage)
-  - [1. Théorie sur la table de hachage](#1-théorie-sur-la-table-de-hachage)
-    - [1.1. Insérer un élément dans une table de hachage](#11-insérer-un-élément-dans-une-table-de-hachage)
-      - [Exercice](#exercice)
-      - [Résolution](#résolution)
-      - [Objectifs rencontrés](#objectifs-rencontrés)
-    - [1.2. Récupérer un élément dans une table de hachage](#12-récupérer-un-élément-dans-une-table-de-hachage)
-      - [Exercice](#exercice-1)
-      - [Résolution](#résolution-1)
-      - [Objectifs rencontrés](#objectifs-rencontrés-1)
-    - [1.3. Importance de la fonction de hachage](#13-importance-de-la-fonction-de-hachage)
-      - [Exercice](#exercice-2)
-      - [Résolution](#résolution-2)
-      - [Objectifs rencontrés](#objectifs-rencontrés-2)
-    - [1.4. Complexité des opérations](#14-complexité-des-opérations)
-      - [Exercice](#exercice-3)
-      - [Résolution](#résolution-3)
-      - [Objectifs rencontrés](#objectifs-rencontrés-3)
-  - [2. Implémentation d'un tableau associatif](#2-implémentation-dun-tableau-associatif)
-    - [2.1. Table de Hachage](#21-table-de-hachage)
-      - [Exercice](#exercice-4)
-      - [Résolution](#résolution-4)
-      - [Objectifs rencontrés](#objectifs-rencontrés-4)
-    - [2.2. Tableau associatif](#22-tableau-associatif)
-      - [Exercice](#exercice-5)
-      - [Résolution](#résolution-5)
-      - [Objectifs rencontrés](#objectifs-rencontrés-5)
-  - [3. Lecture de fichiers](#3-lecture-de-fichiers)
-    - [3.1. Ouvrir et lire un fichiers](#31-ouvrir-et-lire-un-fichiers)
-      - [Exercice](#exercice-6)
-      - [Résolution](#résolution-6)
-      - [Objectifs rencontrés](#objectifs-rencontrés-6)
-    - [3.2. Lister les mots d'un texte](#32-lister-les-mots-dun-texte)
-      - [Exercice](#exercice-7)
-      - [Résolution](#résolution-7)
-      - [Objectifs rencontrés](#objectifs-rencontrés-7)
-  - [Auto-évaluation de la séance](#auto-évaluation-de-la-séance)
-      - [Fonction de hachage avec valeur aléatoire à chaque position](#fonction-de-hachage-avec-valeur-aléatoire-à-chaque-position)
-      - [Problème de la taille de ligne](#problème-de-la-taille-de-ligne)
-      - [Segmentation fault lors du traitement de Nana.txt](#segmentation-fault-lors-du-traitement-de-nanatxt)
-  - [Notes en vrac](#notes-en-vrac)
-      - [\[Prof\] Table de hachage](#prof-table-de-hachage)
-      - [\[Prof\] Tips sur l'allocation de chaine de caractère](#prof-tips-sur-lallocation-de-chaine-de-caractère)
-      - [\[ Recherche \] ``gets`` vs ``fgets``](#-recherche--gets-vs-fgets)
-      - [\[ Recherche \] Divers](#-recherche--divers)
+- [1. Théorie sur la table de hachage](#1-théorie-sur-la-table-de-hachage)
+  - [1.1. Insérer un élément dans une table de hachage](#11-insérer-un-élément-dans-une-table-de-hachage)
+    - [Exercice](#exercice)
+    - [Résolution](#résolution)
+    - [Objectifs rencontrés](#objectifs-rencontrés)
+  - [1.2. Récupérer un élément dans une table de hachage](#12-récupérer-un-élément-dans-une-table-de-hachage)
+    - [Exercice](#exercice-1)
+    - [Résolution](#résolution-1)
+    - [Objectifs rencontrés](#objectifs-rencontrés-1)
+  - [1.3. Importance de la fonction de hachage](#13-importance-de-la-fonction-de-hachage)
+    - [Exercice](#exercice-2)
+    - [Résolution](#résolution-2)
+    - [Objectifs rencontrés](#objectifs-rencontrés-2)
+  - [1.4. Complexité des opérations](#14-complexité-des-opérations)
+    - [Exercice](#exercice-3)
+    - [Résolution](#résolution-3)
+    - [Objectifs rencontrés](#objectifs-rencontrés-3)
+- [2. Implémentation d'un tableau associatif](#2-implémentation-dun-tableau-associatif)
+  - [2.1. Table de Hachage](#21-table-de-hachage)
+    - [Exercice](#exercice-4)
+    - [Résolution](#résolution-4)
+    - [Objectifs rencontrés](#objectifs-rencontrés-4)
+  - [2.2. Tableau associatif](#22-tableau-associatif)
+    - [Exercice](#exercice-5)
+    - [Résolution](#résolution-5)
+    - [Objectifs rencontrés](#objectifs-rencontrés-5)
+- [3. Lecture de fichiers](#3-lecture-de-fichiers)
+  - [3.1. Ouvrir et lire un fichiers](#31-ouvrir-et-lire-un-fichiers)
+    - [Exercice](#exercice-6)
+    - [Résolution](#résolution-6)
+    - [Objectifs rencontrés](#objectifs-rencontrés-6)
+  - [3.2. Lister les mots d'un texte](#32-lister-les-mots-dun-texte)
+    - [Exercice](#exercice-7)
+    - [Résolution](#résolution-7)
+    - [Objectifs rencontrés](#objectifs-rencontrés-7)
+- [Auto-évaluation de la séance](#auto-évaluation-de-la-séance)
+    - [Fonction de hachage avec valeur aléatoire à chaque position](#fonction-de-hachage-avec-valeur-aléatoire-à-chaque-position)
+    - [Problème de la taille de ligne](#problème-de-la-taille-de-ligne)
+    - [Segmentation fault lors du traitement de Nana.txt](#segmentation-fault-lors-du-traitement-de-nanatxt)
+- [Notes en vrac](#notes-en-vrac)
+    - [\[Prof\] Table de hachage](#prof-table-de-hachage)
+    - [\[Prof\] Tips sur l'allocation de chaine de caractère](#prof-tips-sur-lallocation-de-chaine-de-caractère)
+    - [\[ Recherche \] ``gets`` vs ``fgets``](#-recherche--gets-vs-fgets)
+    - [\[ Recherche \] Divers](#-recherche--divers)
 
 
 ## 1. Théorie sur la table de hachage
@@ -68,16 +66,16 @@ Lorsqu'on résout le hachage de ces différentes clés, on se rend compte qu'il 
 
 Pour éviter le refus d'insertion dans une table de hachage en cas de collision (i.e. deux clé partageant le même index), on peut implémenter une liste simplement chaînée. De ce fait, le premier élément avec l'index serait l'`head` de la liste chaînée tandis que le second serait juste ajoutée à la liste chaînée. 
 
-Le taux de remplissage est la proportion du nombre d'index utilisé sur le nombre total d'index disponible. Avec cette méthode de chaînage, le taux de remplissage n'est pas à garder à vue que la table est peut être étendue pour chaque index. Par contre, la complexité ne sera plus constante mais égale à la taille des chaines.
+Le taux de remplissage est la proportion du nombre d'index utilisé sur le nombre total d'index disponible. Avec cette méthode de chaînage, il n'y a pas de risque que la table soit saturée. Par contre, la complexité ne sera plus constante mais égale à la taille moyenne des chaines pour chaque index.
 
 **Solution avec adressage ouvert**
 
 Contrairement à la solution avec chaînage, l'adressage ouvert permet de stocker les collisions directement dans la table de hachage à une position libre. Pour cette implémentation, le taux de remplissage de la table est à garder à vue car il faut pouvoir étendre la table si un seuil de remplissage pré-défini est dépassé (typiquement 2/3).
 
-Agrandir la table si celle-ci dépasse le taux de remplissage serait assez complexe car il faut:
+Agrandir la table si celle-ci dépasse le taux de remplissage est assez lourd car il faut:
 - Étendre l'allocation de la table en mémoire
 - Changer la fonction de hachage
-- Réattribuer change entrée de la table actuel dans la nouvelle table 
+- Réattribuer chaque entrée de la table actuel dans la nouvelle table 
 
 #### Objectifs rencontrés
 * 18-Comprendre le fonctionnement d’une table de hachage 
@@ -99,8 +97,6 @@ Comme précédemment, on utilise la fonction de hachage pour retrouver l'index d
 #### Objectifs rencontrés
 * 6-Être capable d’implémenter concrètement un ADT donné, de plusieurs manières
 * 18-Comprendre le fonctionnement d’une table de hachage 
-
-
 
 ### 1.3. Importance de la fonction de hachage
 #### Exercice
@@ -173,7 +169,7 @@ Dans des conditions idéales (uniformité et faible remplissage), les opération
 - add_to_dict= O(1)
 - search_in_dict= O(1)
 - remove_from_dict= O(1) 
-- 
+
 #### Objectifs rencontrés
 * 18-Comprendre le fonctionnement d’une table de hachage 
 
@@ -189,16 +185,16 @@ remplissage est de 2/3) etc.
 Déterminez une fonction de hachage efficace et suffisamment uniforme. Justifiez.
 
 #### Résolution
-* Voir [implémentation de la hash table](code/Hash_table.c)
-* Voir [tests sur la hash table](code/tests_Hash_table.c)
+* Voir [implémentation de la hash table](cours5/code/Hash_table.c)
+* Voir [tests sur la hash table](cours5/code/tests_Hash_table.c)
 
 Compilation et exécution des tests (tous les tests passent)
 ```
 gcc -o tests_Hash_table.out tests_Hash_table.c Hash_table.c listes_chainees_dict.c && ./tests_Hash_t
 ```
 Dépend d'une implémentation de la liste chaînée incluant une clé (chaîne de caractère) et une valeur entière
-* Voir [implémentation de la listes chainees](code/listes_chainees_dict.c)
-* Voir [tests sur la hash table](code/test_list_chainees_dict.c)
+* Voir [implémentation de la liste chaînée](cours5/code/listes_chainees_dict.c)
+* Voir [tests sur la liste chaînée](cours5/code/tests_list_chainees_dict.c)
 
 Compilation et exécution des tests pour la liste chaînées (tous les tests passent)
 ```
@@ -215,8 +211,8 @@ gcc -o tests_list_chainees_dict.out tests_list_chainees_dict.c listes_chainees_d
 que vous avez définie précédemment.
 
 #### Résolution
-- Voir [implémentation](code/Dict_hash_chaine.c)
-- Voir [tests](code/tests_Dict_hash_chaine.c)
+- Voir [implémentation](cours5/code/Dict_hash_chaine.c)
+- Voir [tests](cours5/code/tests_Dict_hash_chaine.c)
 
 Compilation et exécution des tests pour le tableau associatif (tous les tests passent)
 ```
@@ -240,7 +236,7 @@ Essaie d’ouvrir le fichier nana.txt et d’en afficher les deux premières lig
 Essaie de stocker en mémoire la totalité du texte.
 
 #### Résolution
-Voir [implémentation dans une boucle](code/read_file_print.c)
+Voir [read_file_print.c](cours5/code/read_file_print.c)
 
 Compilation et exécution
 ```
@@ -261,7 +257,7 @@ moyen d’une table de hachage !
 
 #### Résolution
 
-Voir [count_word_occurrence.c](code/count_word_occurrence.c)
+Voir [count_word_occurrence.c](cours5/code/count_word_occurrence.c)
 
 Compilation & Exécution
 ```
